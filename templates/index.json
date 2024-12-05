@@ -1,10 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "hello-world",
-      "settings": {
-        "heading": "Contextos globais: React x Vanilla"
-      }
+      "type": "hello-world"
     }
   },
   "order": ["main"]

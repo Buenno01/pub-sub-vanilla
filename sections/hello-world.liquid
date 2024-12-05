@@ -1,16 +1,12 @@
-<section class="container">
-  <div class="title-container">
-    {% if section.settings.heading != blank %}
-      <h1>{{ section.settings.heading }}</h1>
-    {% endif %}
+{{ 'cart-icon.js' |  asset_url |  script_tag }}
+{{ 'error-message.js' |  asset_url |  script_tag }}
+{{ 'cart-drawer.js' |  asset_url |  script_tag }}
+{{ 'add-to-cart-button.js' |  asset_url |  script_tag }}
+{{ 'remove-from-cart-button.js' |  asset_url |  script_tag }}
 
-    <ul class="vanilla console" id="vanilla-console"></ul>
-    <ul class="react console" id="react-console"></ul>
-  </div>
-
-  <div class="grid">
-    <div class="view vanilla">
-      <header class="header">
+<section class="container vanilla">
+  <error-message></error-message>
+  <header class="header">
         <ul class="link-placeholder header-column">
           <li></li>
           <li></li>
@@ -23,7 +19,7 @@
         </div>
         <div class="header-column">
           <cart-icon>
-            <a class="cart-icon">
+            <a role="button" class="cart-icon">
               {% render 'icon-cart' %}
               <span>
                 {{ cart.item_count }}
@@ -31,45 +27,45 @@
             </a>
           </cart-icon>
         </div>
-      </header>
-      <div class="flex">
-        <ul class="main">
-          {% for product in collections['all'].products limit: 9 %}
-            <li class="product-card">
-              <img src="{{ product.featured_image.src | image_url: width: 300 }}">
-              <h2>{{ product.title }}</h2>
-              <add-to-cart-button data-variant-id="{{ product.selected_or_first_available_variant.id }}">
-                <button>
-                  Add to cart
-                </button>
-              </add-to-cart-button>
-            </li>
-          {% endfor %}
-        </ul>
-
-        <div class="cart">
-          <ul>
-            {% for item in cart.items %}
-              <li class="product-card">
-                <img src="{{ item.product.featured_image.src | image_url: width: 300 }}">
-                <remove-from-cart-button data-variant-id="{{ item.variant_id }}">
-                  <button>
-                    remove
-                  </button>
-                </remove-from-cart-button>
-                <span>
-                  {{ item.quantity }}
-                </span>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="view react" id="hello-world">
-
-    </div>
-  </div>
+  </header>
+  <cart-drawer class="cart">
+    <h2>Carrinho <span role="button" class="close">X</span></h2>
+    <ul>
+      {% for item in cart.items %}
+        <li class="product-card">
+          <img src="{{ item.product.featured_image.src | image_url: width: 300 }}">
+          <remove-from-cart-button data-variant-id="{{ item.variant_id }}">
+            <button>
+              remove
+            </button>
+          </remove-from-cart-button>
+          <span data-cart-count>
+            {{ item.quantity }}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  </cart-drawer>
+  <ul class="main">
+    {% assign counter = 0 %}
+    {% for product in collections['all'].products %}
+      {% if product.first_available_variant %}
+        <li class="product-card">
+          <img src="{{ product.featured_image.src | image_url: width: 300 }}">
+          <h2>{{ product.title }}</h2>
+          <add-to-cart-button data-variant-id="{{ product.first_available_variant.id }}">
+            <button>
+              Add to cart
+            </button>
+          </add-to-cart-button>
+        </li>
+        {% assign counter = counter | plus: 1 %}
+        {% if counter == 9 %}
+          {% break %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </ul>
 </section>
 
 {% schema %}
