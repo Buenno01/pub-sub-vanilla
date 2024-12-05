@@ -39,8 +39,6 @@ if (!customElements.get('add-to-cart-button')) {
         }
 
         const cart = await response.json();
-
-        console.log('Item added to cart:', this.variantId);
       } catch (error) {
           console.error('Error:', error);
       }

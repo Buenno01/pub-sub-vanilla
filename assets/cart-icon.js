@@ -11,7 +11,6 @@ if (!customElements.get('cart-icon')) {
     }
 
     setEventListeners() {
-      console.log('setEventListeners');
       this.querySelector('a').addEventListener('click', (event) => {
         event.preventDefault();
         this.toggleCartOpen();
@@ -25,8 +24,10 @@ if (!customElements.get('cart-icon')) {
     updateCartCount(something) {
       // Updates the cart count in the icon
 
+      const { data: itemCount } = something;
+
       this.querySelectorAll('[data-cart-count]').forEach((element) => {
-        element.textContent = something;
+        element.textContent = itemCount;
       });
     }
   });
