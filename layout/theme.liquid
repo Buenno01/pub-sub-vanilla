@@ -42,6 +42,8 @@
       render 'adastra' with 'base.css'
       render 'adastra' with 'index.jsx'
     %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
   </head>
   <body>
     <main

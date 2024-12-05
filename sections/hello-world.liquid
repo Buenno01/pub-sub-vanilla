@@ -1,13 +1,75 @@
 <section class="container">
-  {% if section.settings.heading != blank %}
-    <h1>{{ section.settings.heading }}</h1>
-  {% endif %}
+  <div class="title-container">
+    {% if section.settings.heading != blank %}
+      <h1>{{ section.settings.heading }}</h1>
+    {% endif %}
 
-  <div id="hello-world"></div>
+    <ul class="vanilla console" id="vanilla-console"></ul>
+    <ul class="react console" id="react-console"></ul>
+  </div>
 
-  <footer>
-    {{ powered_by_link }}
-  </footer>
+  <div class="grid">
+    <div class="view vanilla">
+      <header class="header">
+        <ul class="link-placeholder header-column">
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <div class="header-column">
+          <span class="white-text">
+            LOGO
+          </span>
+        </div>
+        <div class="header-column">
+          <cart-icon>
+            <a class="cart-icon">
+              {% render 'icon-cart' %}
+              <span>
+                {{ cart.item_count }}
+              </span>
+            </a>
+          </cart-icon>
+        </div>
+      </header>
+      <div class="flex">
+        <ul class="main">
+          {% for product in collections['all'].products limit: 9 %}
+            <li class="product-card">
+              <img src="{{ product.featured_image.src | image_url: width: 300 }}">
+              <h2>{{ product.title }}</h2>
+              <add-to-cart-button data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+                <button>
+                  Add to cart
+                </button>
+              </add-to-cart-button>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <div class="cart">
+          <ul>
+            {% for item in cart.items %}
+              <li class="product-card">
+                <img src="{{ item.product.featured_image.src | image_url: width: 300 }}">
+                <remove-from-cart-button data-variant-id="{{ item.variant_id }}">
+                  <button>
+                    remove
+                  </button>
+                </remove-from-cart-button>
+                <span>
+                  {{ item.quantity }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="view react" id="hello-world">
+
+    </div>
+  </div>
 </section>
 
 {% schema %}
