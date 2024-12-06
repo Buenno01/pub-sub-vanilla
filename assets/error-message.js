@@ -2,6 +2,10 @@ if (!customElements.get('error-message')) {
   customElements.define('error-message', class extends HTMLElement {
     constructor() {
       super();
+
+      subscribe(PUB_SUB_EVENTS.error, (data) => {
+        this.showError(data);
+      });
     }
 
     showError(something) {

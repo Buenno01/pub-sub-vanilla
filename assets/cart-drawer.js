@@ -2,6 +2,14 @@ if (!customElements.get('cart-drawer')) {
   customElements.define('cart-drawer', class extends HTMLElement {
     constructor() {
       super();
+      subscribe(PUB_SUB_EVENTS.cartDrawerOpen, () => {
+        this.openCart();
+      });
+
+      subscribe(PUB_SUB_EVENTS.cartChanged, async () => {
+        await this.updateUI();
+        this.openCart();
+      });
     }
 
     connectedCallback() {

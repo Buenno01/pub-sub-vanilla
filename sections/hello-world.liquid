@@ -1,3 +1,5 @@
+{{ 'pubsub.js'  |  asset_url |  script_tag }}
+{{ 'constants.js' |  asset_url |  script_tag }}
 {{ 'cart-icon.js' |  asset_url |  script_tag }}
 {{ 'error-message.js' |  asset_url |  script_tag }}
 {{ 'cart-drawer.js' |  asset_url |  script_tag }}
@@ -47,6 +49,7 @@
     </ul>
   </cart-drawer>
   <ul class="main">
+
     {% assign counter = 0 %}
     {% for product in collections['all'].products %}
       {% if product.first_available_variant %}

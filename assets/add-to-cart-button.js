@@ -39,8 +39,16 @@ if (!customElements.get('add-to-cart-button')) {
         }
 
         const cart = await response.json();
+
+        publish(PUB_SUB_EVENTS.cartChanged, { data: cart });
+
       } catch (error) {
-          console.error('Error:', error);
+        publish(PUB_SUB_EVENTS.error, {
+          data: {
+            message: 'Erro ao adicionar o item ao carrinho' 
+          },
+          source: this,
+        });
       }
     }
   });

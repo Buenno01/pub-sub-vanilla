@@ -7,6 +7,10 @@ if (!customElements.get('cart-icon')) {
     connectedCallback() {
       setTimeout(() => {
         this.setEventListeners();
+
+        subscribe(PUB_SUB_EVENTS.cartChanged, (data) => {
+          this.updateCartCount(data);
+        });
       });
     }
 
@@ -18,16 +22,14 @@ if (!customElements.get('cart-icon')) {
     }
 
     toggleCartOpen() {
-      // Adds a "hidden" class to the cart if it's not already there
+      publish(PUB_SUB_EVENTS.cartDrawerOpen, {});
     }
 
     updateCartCount(something) {
-      // Updates the cart count in the icon
-
-      const { data: itemCount } = something;
+      const { data: cart } = something;
 
       this.querySelectorAll('[data-cart-count]').forEach((element) => {
-        element.textContent = itemCount;
+        element.textContent = cart.item_count;
       });
     }
   });
